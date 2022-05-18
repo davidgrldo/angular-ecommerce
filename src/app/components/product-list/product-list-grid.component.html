@@ -5,8 +5,15 @@
         <!-- loop over the collection of products -->
         <div class="col-md-3" *ngFor="let tempProduct of products">
           <div class="product-box">
-            <img src="{{ tempProduct.imageUrl }}" class="img-responsive" />
-            <h1>{{ tempProduct.name }}</h1>
+
+            <a routerLink="/products/{{ tempProduct.id }}">
+              <img src="{{ tempProduct.imageUrl }}" class="img-responsive" />
+            </a>
+
+            <a routerLink="/products/{{ tempProduct.id }}">
+              <h1>{{ tempProduct.name }}</h1>
+            </a>
+
             <div class="price">
               {{ tempProduct.unitPrice | currency: "USD" }}
             </div>
@@ -18,6 +25,7 @@
         <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
           No products found!
         </div>
+        
       </div>
     </div>
   </div>
