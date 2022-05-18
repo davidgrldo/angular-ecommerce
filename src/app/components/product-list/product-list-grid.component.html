@@ -27,6 +27,42 @@
         </div>
         
       </div>
+
+      <!-- Begin footer -->
+      <div class="footer-pagination"> 
+        <div class="row justify-content-center">
+
+          <div class="col-6">
+
+                <ngb-pagination [(page)]="thePageNumber"
+                                [pageSize]="thePageSize" 
+                                [collectionSize]="theTotalElements" 
+                                [maxSize]="5"
+                                [boundaryLinks]="true"
+                                (pageChange)="listProducts()">
+
+                </ngb-pagination>
+
+            
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-3 mt-2" >
+            <span>
+              Page Size
+            </span>
+            <select (change)="updatePageSize($event.target.value)">
+              <option>2</option>
+              <option selected="true">5</option>
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- End footer -->
+
     </div>
   </div>
 </div>
