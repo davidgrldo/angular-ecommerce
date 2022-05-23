@@ -18,14 +18,14 @@ export class ProductListComponent implements OnInit {
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
   searchMode: boolean = false;
-  
+
   // new properties for pagination
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
 
   previousKeyword: string = null;
- 
+
   constructor(private productService: ProductService,
               private cartService: CartService,
               private route: ActivatedRoute) { }
@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
     else {
       this.handleListProducts();
     }
-    
+
   }
 
   handleSearchProducts() {
