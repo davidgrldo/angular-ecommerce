@@ -24,7 +24,7 @@
     "@okta/okta-angular": "^3.0.1",
     "@okta/okta-signin-widget": "^5.2.0",
     "@popperjs/core": "^2.10.2",
-    "ajv": "^8.11.0",
+    "ajv": "^7.0.3",
     "autoprefixer": "10.4.5",
     "bootstrap": "^5.1.3",
     "rxjs": "~6.5.4",
