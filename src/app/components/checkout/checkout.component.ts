@@ -31,14 +31,19 @@ export class CheckoutComponent implements OnInit {
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
+  storage: Storage = sessionStorage;
+
   constructor(private formBuilder: FormBuilder,
-              private customFormService: CustomFormService,
-              private cartService: CartService,
-              private checkoutService: CheckoutService,
-              private router: Router) { }
+    private customFormService: CustomFormService,
+    private cartService: CartService,
+    private checkoutService: CheckoutService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.reviewCartDetails();
+
+    // read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail'));
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -51,7 +56,7 @@ export class CheckoutComponent implements OnInit {
           Validators.required,
           Validators.minLength(2)
         ]),
-        email: new FormControl('', [
+        email: new FormControl(theEmail, [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ])
@@ -185,7 +190,7 @@ export class CheckoutComponent implements OnInit {
     if (event.target.checked) {
       this.checkoutFormGroup.controls.billingAddress
         .setValue(this.checkoutFormGroup.controls.shippingAddress.value);
-      
+
       // bug fix for states
       this.billingAddressStates = this.shippingAddressStates;
     } else {
@@ -199,7 +204,7 @@ export class CheckoutComponent implements OnInit {
   onSubmit() {
     console.log('Handling the submit button.');
 
-    if(this.checkoutFormGroup.invalid) {
+    if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
       return;
     }
@@ -230,22 +235,22 @@ export class CheckoutComponent implements OnInit {
 
     // populate purchase - shipping address
     purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
-    
+
     const shippingState: State = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
     const shippingCountry: Country = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
 
     purchase.shippingAddress.state = shippingState.name;
     purchase.shippingAddress.country = shippingCountry.name;
-    
+
     // populate purchase - billing address
     purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
-    
+
     const billingState: State = JSON.parse(JSON.stringify(purchase.billingAddress.state));
     const billingCountry: Country = JSON.parse(JSON.stringify(purchase.billingAddress.country));
 
     purchase.billingAddress.state = billingState.name;
     purchase.billingAddress.country = billingCountry.name;
-    
+
     // populate purchase - order and order items
     purchase.order = order;
     purchase.orderItems = orderItems;
@@ -287,7 +292,7 @@ export class CheckoutComponent implements OnInit {
 
     // if the current year equals the selected year, then start with the current month
     let startMonth: number;
-    
+
     if (currentYear === selectedYear) {
       startMonth = new Date().getMonth() + 1;
     } else {
@@ -307,7 +312,7 @@ export class CheckoutComponent implements OnInit {
 
     const countryCode = formGroup.value.country.code;
     const countryName = formGroup.value.country.name;
-    
+
     console.log(`${formGroupName} country code : ${countryCode}`);
     console.log(`${formGroupName} country name : ${countryName}`);
 
